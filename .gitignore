@@ -5,6 +5,8 @@ target/
 !**/src/test/**/target/
 mvnw
 mvnw.cmd
+mysql-connector-java-8.0.18.jar
+log/
 
 ### STS ###
 .apt_generated
