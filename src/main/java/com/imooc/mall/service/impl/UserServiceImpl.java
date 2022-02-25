@@ -9,7 +9,6 @@ import com.imooc.mall.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.security.NoSuchAlgorithmException;
 
 
@@ -54,5 +53,20 @@ public class UserServiceImpl implements UserService {
         if (count == 0) {
             throw new ImoocMallException(ImoocMallExceptionEnum.INSERT_FAILED);
         }
+    }
+
+    @Override
+    public User login(String username, String password) throws ImoocMallException {
+        String md5password =null;
+        try {
+            md5password = MD5Utils.getMD5Str(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        User user = userMapper.selectLogin(username, md5password);
+        if (user == null) {
+            throw new ImoocMallException(ImoocMallExceptionEnum.WRONG_USERNAME_OR_PASSWORD);
+        }
+        return user;
     }
 }

@@ -2,6 +2,7 @@ package com.imooc.mall.controller;
 
 
 import com.imooc.mall.common.ApiRestResponse;
+import com.imooc.mall.common.Constant;
 import com.imooc.mall.exception.ImoocMallException;
 import com.imooc.mall.exception.ImoocMallExceptionEnum;
 import com.imooc.mall.model.pojo.User;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 /**
  * User Controller
@@ -29,6 +31,13 @@ public class UserController {
         return userService.getUser();
     }
 
+    /**
+     * user register
+     * @param username
+     * @param password
+     * @return
+     * @throws ImoocMallException
+     */
     @PostMapping("/register")
     @ResponseBody
     public ApiRestResponse register(@RequestParam("username") String username, @RequestParam("password") String password) throws ImoocMallException {
@@ -43,5 +52,21 @@ public class UserController {
         }
         userService.register(username, password);
         return ApiRestResponse.success();
+    }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public ApiRestResponse login(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session) throws ImoocMallException {
+        if (StringUtils.isEmpty(username)) {
+            return ApiRestResponse.error(ImoocMallExceptionEnum.NEED_USER_NAME);
+        }
+        if (StringUtils.isEmpty(password)) {
+            return ApiRestResponse.error(ImoocMallExceptionEnum.NEED_PASSWORD);
+        }
+        User user = userService.login(username, password);
+//        When returning user information, password cannot be included
+        user.setPassword(null);
+        session.setAttribute(Constant.IMOOC_MALL_USER, user);
+        return ApiRestResponse.success(user);
     }
 }

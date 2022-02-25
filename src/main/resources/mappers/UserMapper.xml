@@ -120,4 +120,11 @@
         FROM imooc_mall_user
         WHERE username = #{username, jdbcType=VARCHAR}
   </select>
+  <select id="selectLogin" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM imooc_mall_user
+    WHERE username = #{username, jdbcType=VARCHAR}
+    AND password = #{password}
+  </select>
 </mapper>

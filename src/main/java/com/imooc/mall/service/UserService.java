@@ -12,4 +12,6 @@ public interface UserService {
     User getUser();
 
     void register(String username, String password) throws ImoocMallException;
+
+    User login(String username, String password) throws ImoocMallException;
 }
