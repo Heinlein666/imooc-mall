@@ -3,6 +3,7 @@ package com.imooc.mall.service.impl;
 import com.imooc.mall.exception.ImoocMallException;
 import com.imooc.mall.exception.ImoocMallExceptionEnum;
 import com.imooc.mall.model.dao.UserMapper;
+import com.imooc.mall.model.pojo.Category;
 import com.imooc.mall.model.pojo.User;
 import com.imooc.mall.service.UserService;
 import com.imooc.mall.util.MD5Utils;
@@ -55,6 +56,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * user login
+     * @param username
+     * @param password
+     * @return
+     * @throws ImoocMallException
+     */
     @Override
     public User login(String username, String password) throws ImoocMallException {
         String md5password =null;
@@ -69,4 +77,29 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    /**
+     * update user info
+     * @param user
+     * @throws ImoocMallException
+     */
+    @Override
+    public void updateInformation(User user) throws ImoocMallException {
+        int updateCount = userMapper.updateByPrimaryKeySelective(user);
+        if (updateCount < 1) {
+            throw new ImoocMallException(ImoocMallExceptionEnum.UPDATE_FAILED);
+        }
+    }
+
+    /**
+     * check user role
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean checkAdminRole(User user) {
+//        1 is a normal user, 2 is an administrator
+        return user.getRole().equals(2);
+    }
+
 }

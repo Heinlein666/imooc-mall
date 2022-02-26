@@ -114,4 +114,18 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM imooc_mall_category
+    WHERE name = #{name, jdbcType=VARCHAR}
+  </select>
+  <select id="selectList" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM imooc_mall_category
+  </select>
+  <select id="selectCategoriesByParentId"  parameterType="int" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM imooc_mall_category
+    WHERE parent_id = #{parentId}
+  </select>
 </mapper>

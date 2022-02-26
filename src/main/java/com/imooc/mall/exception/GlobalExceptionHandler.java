@@ -3,9 +3,15 @@ package com.imooc.mall.exception;
 import com.imooc.mall.common.ApiRestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Common exception process handler
@@ -25,5 +31,28 @@ public class GlobalExceptionHandler {
     public Object handleImoocMallException(ImoocMallException e) {
         log.error("DEFAULT Exception", e);
         return ApiRestResponse.error(e.getCode(), e.getMsg());
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ResponseBody
+    public ApiRestResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error("DEFAULT Exception", e);
+        return handleBindingResult(e.getBindingResult());
+    }
+
+    private ApiRestResponse handleBindingResult(BindingResult result) {
+        //Handle an exception as a cue to expose it
+        List<String> list = new ArrayList<>();
+        if (result.hasErrors()) {
+            List<ObjectError> allErrors = result.getAllErrors();
+            for (ObjectError objectError : allErrors) {
+                String msg = objectError.getDefaultMessage();
+                list.add(msg);
+            }
+        }
+        if (list.size() == 0) {
+            return ApiRestResponse.error(ImoocMallExceptionEnum.REQUEST_PARAM_ERROR);
+        }
+        return ApiRestResponse.error(ImoocMallExceptionEnum.REQUEST_PARAM_ERROR.getCode(),list.toString());
     }
 }
