@@ -149,4 +149,39 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM imooc_mall_product
+        WHERE name = #{name, jdbcType = VARCHAR}
+  </select>
+  <update id="batchUpdateSellStatus">
+      UPDATE imooc_mall_product
+      SET status = #{sellStatus}
+      WHERE id in
+    <foreach collection="ids" open="(" item="id" close=")" separator=",">
+        #{id}
+    </foreach>
+  </update>
+  <select id="selectListForAdmin" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM imooc_mall_product
+    ORDER BY update_time DESC
+  </select>
+  <select id="selectList" parameterType="com.imooc.mall.model.query.ProductListQuery" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM imooc_mall_product
+    <where>
+      <if test="query.keyword != null">
+       AND name LIKE #{query.keyword}
+      </if>
+      <if test="query.categoryIds != null">
+        AND category_id IN
+        <foreach collection="query.categoryIds" open="(" item="item" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+        AND status = 1
+    </where>
+    ORDER BY update_time DESC
+  </select>
 </mapper>

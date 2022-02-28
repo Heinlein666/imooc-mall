@@ -76,9 +76,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Cacheable(value = "listCategoryCustomer")
-    public List<CategoryVO> listCategoryCustomer() {
+    public List<CategoryVO> listCategoryCustomer(Integer parentId) {
         List<CategoryVO> categoryVOList = new ArrayList<>();
-        recursivelyFindCategories(categoryVOList, 0);
+        recursivelyFindCategories(categoryVOList, parentId);
         return  categoryVOList;
     }
     private void recursivelyFindCategories(List<CategoryVO> categoryVOList, Integer parentId) {
