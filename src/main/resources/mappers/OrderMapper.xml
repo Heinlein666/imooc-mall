@@ -210,4 +210,20 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM imooc_mall_order
+    WHERE order_no = #{orderNo}
+  </select>
+  <select id="selectForCustomer" parameterType="integer" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM imooc_mall_order
+    WHERE user_id = #{userId}
+    ORDER BY create_time desc
+  </select>
+  <select id="selectAllForAdmin" parameterType="integer" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM imooc_mall_order
+    ORDER BY create_time desc
+  </select>
 </mapper>

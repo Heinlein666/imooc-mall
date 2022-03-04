@@ -18,6 +18,10 @@ public class CartVO {
 
     private Integer totalPrice;
 
+    private String productName;
+
+    private String productImage;
+
     public Integer getId() {
         return id;
     }
@@ -72,5 +76,21 @@ public class CartVO {
 
     public void setTotalPrice(Integer totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 }
