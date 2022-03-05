@@ -142,6 +142,7 @@ public class OrderServiceImpl implements OrderService {
             orderItem.setUnitPrice(cartVO.getPrice());
             orderItem.setQuantity(cartVO.getQuantity());
             orderItem.setTotalPrice(cartVO.getTotalPrice());
+
             orderItemList.add(orderItem);
         }
         return orderItemList;
@@ -243,7 +244,7 @@ public class OrderServiceImpl implements OrderService {
     public String qrcode(String orderNo) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String address = ip + request.getLocalPort();
+        String address = ip + ":" + request.getLocalPort();
         String payUrl = "http://" + address + "/pay?orderNo=" + orderNo;
         try {
             QRCodeGenerator.generateQRCodeImage(payUrl, 350, 350, Constant.FILE_UPLOAD_DIR + orderNo + ".png");

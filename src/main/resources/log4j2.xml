@@ -2,6 +2,7 @@
 <Configuration status="fatal">
   <Properties>
     <Property name="baseDir" value="C:/Users/Along/IdeaProjects/mooc/spring/mall/log"/>
+<!--    <Property name="baseDir" value="/root/logs"/>-->
   </Properties>
 
   <Appenders>

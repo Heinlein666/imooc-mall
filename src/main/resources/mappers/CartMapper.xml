@@ -129,7 +129,7 @@
     c.selected as selected,
     p.price as price,
     p.name as productName,
-    p.image as productImg
+    p.image as productImage
     FROM imooc_mall_cart c
     LEFT JOIN imooc_mall_product p on p.id = c.product_id
     WHERE user_id = #{userId}
